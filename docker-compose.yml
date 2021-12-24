@@ -2,7 +2,6 @@ version: "3"
 
 volumes:
   minio-data:
-  mongo-data:
 
 services:
     mongo:
