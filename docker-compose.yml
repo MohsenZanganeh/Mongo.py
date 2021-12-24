@@ -1,0 +1,33 @@
+version: "3"
+
+volumes:
+  minio-data:
+  mongo-data:
+
+services:
+    mongo:
+      container_name: mongo
+      image: mongo:5.0.3
+      ports:
+        - 27017:27017
+      volumes:
+        - "mongo-data:/data/db"
+      environment:
+        - MONGO_INITDB_DATABASE=test_db
+        - MONGO_INITDB_ROOT_USERNAME=mohsen
+        - MONGO_INITDB_ROOT_PASSWORD=123
+    web:
+        container_name: web
+        build:
+          context: ../mongo.py
+          dockerfile: Dockerfile
+        volumes:
+          - ../mongo.py/:/app
+        ports:
+          - "5001:5000"
+        command: [
+         "sh",
+         "-c",
+         "python app.py"]
+        env_file:
+          - .env
